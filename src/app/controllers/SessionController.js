@@ -12,13 +12,11 @@ class SessionController {
         .required(),
       password: Yup.string().required(),
     });
-
     if (!(await schema.isValid(req.body))) {
       return res.status(400).json({ error: 'Validation fails' });
     }
 
     const { email, password } = req.body;
-
     const user = await User.findOne({
       where: { email },
       include: [
@@ -29,7 +27,6 @@ class SessionController {
         },
       ],
     });
-
     if (!user) {
       return res.status(401).json({ error: 'User not found' });
     }
@@ -39,7 +36,6 @@ class SessionController {
     }
 
     const { id, name, avatar, provider } = user;
-
     return res.json({
       user: {
         id,
@@ -48,6 +44,7 @@ class SessionController {
         provider,
         avatar,
       },
+
       token: jwt.sign({ id }, authConfig.secret, {
         expiresIn: authConfig.exporesIn,
       }),

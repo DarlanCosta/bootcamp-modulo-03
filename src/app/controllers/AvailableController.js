@@ -60,7 +60,6 @@ class AvailableController {
           !appointments.find(a => format(a.date, 'HH:mm') === time),
       };
     });
-
     return res.json(avaiable);
   }
 }
